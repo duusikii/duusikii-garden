@@ -1,1 +1,188 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
+:root[saved-theme="dark"], :root {
+  --bg: #0f1117;
+  --bg2: #161b22;
+  --bg3: #21262d;
+  --border-color: #30363d;
+  --text: #e6edf3;
+  --text2: #8b949e;
+  --accent: #58a6ff;
+  --green: #3fb950;
+  --purple: #bc8cff;
+  --orange: #ffa657;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  background: var(--bg) !important;
+  color: var(--text) !important;
+}
+
+// 헤더
+header {
+  background: rgba(15,17,23,0.85) !important;
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
+.logo {
+  font-weight: 700 !important;
+  color: var(--text) !important;
+  a { color: var(--accent) !important; }
+}
+
+// 사이드바
+.sidebar {
+  background: var(--bg) !important;
+  border-right: 1px solid var(--border-color) !important;
+}
+
+.toc {
+  background: var(--bg2) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 12px;
+}
+
+// 메인 콘텐츠
+article {
+  background: var(--bg) !important;
+  color: var(--text) !important;
+
+  h1, h2, h3, h4 {
+    color: var(--text) !important;
+    font-weight: 700 !important;
+  }
+
+  h2 {
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.5rem;
+  }
+
+  a {
+    color: var(--accent) !important;
+    text-decoration: none;
+    &:hover { text-decoration: underline; }
+  }
+
+  code {
+    font-family: 'JetBrains Mono', monospace !important;
+    background: var(--bg3) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 6px;
+    padding: 0.15rem 0.4rem;
+    font-size: 0.85em;
+    color: var(--orange) !important;
+  }
+
+  pre {
+    background: var(--bg2) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 12px !important;
+    padding: 1.2rem !important;
+
+    code {
+      background: transparent !important;
+      border: none !important;
+      color: var(--text) !important;
+    }
+  }
+
+  blockquote {
+    border-left: 3px solid var(--accent) !important;
+    background: rgba(88,166,255,0.05) !important;
+    border-radius: 0 8px 8px 0;
+    padding: 0.8rem 1.2rem !important;
+    color: var(--text2) !important;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    th {
+      background: var(--bg2) !important;
+      color: var(--text2) !important;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 0.7rem 1rem;
+      border: 1px solid var(--border-color) !important;
+    }
+    td {
+      padding: 0.7rem 1rem;
+      border: 1px solid var(--border-color) !important;
+      color: var(--text) !important;
+    }
+    tr:hover td { background: var(--bg2) !important; }
+  }
+}
+
+// 페이지 카드 (탐색 목록)
+.page-listing .section-li {
+  background: var(--bg2) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 12px !important;
+  padding: 1.2rem 1.4rem !important;
+  margin-bottom: 0.8rem !important;
+  transition: border-color 0.2s, transform 0.2s !important;
+
+  &:hover {
+    border-color: var(--accent) !important;
+    transform: translateY(-2px);
+  }
+
+  a { color: var(--text) !important; font-weight: 600 !important; }
+  p { color: var(--text2) !important; font-size: 0.88rem !important; }
+}
+
+// 태그
+.tag-link, .tags li a {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.75rem !important;
+  background: rgba(88,166,255,0.1) !important;
+  border: 1px solid rgba(88,166,255,0.3) !important;
+  color: var(--accent) !important;
+  border-radius: 6px !important;
+  padding: 0.2rem 0.6rem !important;
+}
+
+// 그래프 뷰
+.graph {
+  background: var(--bg2) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 12px !important;
+}
+
+// 검색
+.search-bar {
+  background: var(--bg2) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 8px !important;
+  color: var(--text) !important;
+
+  &:focus { border-color: var(--accent) !important; }
+}
+
+// 백링크
+.backlinks {
+  background: var(--bg2) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 12px !important;
+  padding: 1rem !important;
+
+  h3 { color: var(--text2) !important; font-size: 0.8rem !important; }
+  a { color: var(--accent) !important; }
+}
+
+// 푸터
+footer {
+  border-top: 1px solid var(--border-color) !important;
+  color: var(--text2) !important;
+  background: var(--bg) !important;
+}
+
+// 스크롤바
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text2); }
