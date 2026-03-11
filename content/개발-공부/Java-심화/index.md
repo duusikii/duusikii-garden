@@ -13,3 +13,4 @@ tags: [Java, 면접, 백엔드]
 - [[가비지-컬렉션-GC]] — GC 알고리즘과 튜닝
 - [[컬렉션-프레임워크]] — List, Map, Set 내부 구조
 - [[Java-IO와-스트림]] — InputStream, Reader, Buffer의 관계
+- [[String-StringBuffer-StringBuilder]] — 불변 vs 가변, 스레드 안전성
