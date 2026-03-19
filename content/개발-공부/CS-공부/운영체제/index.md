@@ -10,6 +10,7 @@ tags: [CS, OS, 면접]
 - [[메모리-관리|메모리 관리]]
 - [[동기화와-데드락|동기화 & 데드락]]
 - [[CPU-스케줄링|CPU 스케줄링]]
+- [[epoll과-IO-Multiplexing|epoll과 I/O Multiplexing]]
 
 ## 🎯 면접 핵심
 - 프로세스 vs 스레드 차이 완벽 이해
