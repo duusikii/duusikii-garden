@@ -14,3 +14,5 @@ tags: [Java, 면접, 백엔드]
 - [[컬렉션-프레임워크]] — List, Map, Set 내부 구조
 - [[Java-IO와-스트림]] — InputStream, Reader, Buffer의 관계
 - [[String-StringBuffer-StringBuilder]] — 불변 vs 가변, 스레드 안전성
+- [[힙-덤프와-메모리-릭]] — Heap Dump 분석과 메모리 릭 원인
+- [[Spring-AOP와-프록시]] — @Async, @Transactional이 안 되는 이유
