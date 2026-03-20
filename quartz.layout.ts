@@ -4,7 +4,14 @@ import * as Component from "./quartz/components"
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
   header: [],
-  afterBody: [],
+  afterBody: [
+    Component.RecentNotes({
+      title: "📝 최근 업데이트",
+      limit: 10,
+      showTags: true,
+      filter: (f) => !f.slug?.endsWith("index"),
+    }),
+  ],
   footer: Component.Footer({
     links: {
       GitHub: "https://github.com/duusikii",
