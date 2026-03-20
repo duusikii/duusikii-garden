@@ -11,7 +11,7 @@ const config: QuartzConfig = {
     locale: "ko-KR",
     baseUrl: "duusikii.github.io/duusikii-garden",
     ignorePatterns: ["private", "templates", ".obsidian"],
-    defaultDateType: "created",
+    defaultDateType: "modified",
     generateSocialImages: false,
     theme: {
       fontOrigin: "googleFonts",
