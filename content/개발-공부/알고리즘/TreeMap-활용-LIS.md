@@ -6,7 +6,8 @@ tags:
   - DP
   - 이분탐색
   - 코딩테스트
-date: 2026-03-19
+created: 2026-03-19
+modified: 2026-03-19
 related:
   - "[[Prefix-Sum-패턴]]"
 ---

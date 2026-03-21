@@ -5,7 +5,8 @@ tags:
   - Redis
   - 캐시
   - 면접
-date: 2026-03-20
+created: 2026-03-20
+modified: 2026-03-20
 related:
   - "[[캐시전략]]"
   - "[[카프카-Kafka]]"

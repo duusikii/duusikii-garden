@@ -5,7 +5,8 @@ tags:
   - API
   - 시스템디자인
   - 면접
-date: 2026-03-19
+created: 2026-03-19
+modified: 2026-03-19
 related:
   - "[[Redis-심화]]"
   - "[[카프카-Kafka]]"

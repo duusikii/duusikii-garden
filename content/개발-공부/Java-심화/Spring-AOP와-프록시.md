@@ -5,7 +5,8 @@ tags:
   - Spring
   - AOP
   - 면접
-date: 2026-03-19
+created: 2026-03-19
+modified: 2026-03-19
 related:
   - "[[JVM-구조와-동작원리]]"
 ---

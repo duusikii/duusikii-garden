@@ -5,7 +5,8 @@ tags:
   - OS
   - 네트워크
   - 면접
-date: 2026-03-20
+created: 2026-03-20
+modified: 2026-03-20
 related:
   - "[[프로세스와-스레드]]"
   - "[[Redis-심화]]"
