@@ -6,10 +6,11 @@ tags:
   - 캐시
   - 면접
 created: 2026-03-20
-modified: 2026-03-20
+modified: 2026-03-25
 related:
   - "[[캐시전략]]"
   - "[[카프카-Kafka]]"
+  - "[[쿠폰-시스템-설계]]"
 ---
 
 # Redis 심화
@@ -47,7 +48,12 @@ INCR page:view:count → 원자적 증가
 SETEX session:abc 3600 "userData" → 1시간 후 만료
 ```
 
-활용: 세션, API Rate Limiting, 조회수 카운터
+활용: 세션, API Rate Limiting, 조회수 카운터, 분산 락
+
+```
+SETNX lock:resource "server1"  → 없으면 세팅 (분산 락!)
+SET lock:resource "server1" NX EX 5  → 락 + 5초 TTL
+```
 
 ### Hash
 
@@ -76,7 +82,13 @@ SISMEMBER likes:post:1 "user:1" → true
 SINTER likes:post:1 likes:post:2 → 교집합
 ```
 
-활용: 좋아요, 중복 방지, 친구 목록
+활용: 좋아요, 중복 방지, 친구 목록, **쿠폰 중복 발급 방지**
+
+```
+SADD의 핵심: 이미 있으면 추가 안 하고 0 반환!
+→ 중복 체크가 자동으로 됨
+SCARD: 집합 크기 → 발급 수량 확인에 활용
+```
 
 ### Sorted Set (ZSet)
 
@@ -86,7 +98,14 @@ ZADD leaderboard 200 "두식"
 ZREVRANGE leaderboard 0 2 → 점수 높은 순
 ```
 
-활용: 리더보드, 실시간 랭킹, 인기 검색어
+활용: 리더보드, 실시간 랭킹, 인기 검색어, **대기열 시스템**
+
+```
+대기열 예시:
+  ZADD queue 1711234567890 "user456"  (score = 요청 시각)
+  ZRANGE queue 0 0    → 가장 먼저 온 유저 꺼내기
+  ZRANK queue "user456" → "3번째 대기 중!"
+```
 
 ---
 
@@ -233,6 +252,37 @@ Replica 1~N: 읽기만
 → 데이터 분산 + 읽기 분산 + 장애 대비
 ```
 
+### Redis Sentinel (고가용성)
+
+```
+Master 장애 시 Replica를 자동으로 Master로 승격
+
+[Redis Master] ←복제→ [Redis Replica]
+      ↑                    ↑
+   [Sentinel] ←────→ [Sentinel]
+
+Master 죽음 → Sentinel: "Replica야 네가 Master!"
+→ ~10초 후 정상 복귀
+
+Cluster와 차이:
+  Cluster: 데이터 분산 (샤딩) + HA
+  Sentinel: 동일 데이터 복제 + HA
+  → 단일 노드 성능으로 충분하면 Sentinel이 간단!
+```
+
+### MySQL vs Redis 커넥션 차이
+
+```
+MySQL: 커넥션 1개 = OS 스레드/프로세스 (~10MB 메모리)
+  → max_connections 기본 151
+  → 500개 넘으면 리소스 한계
+
+Redis: 커넥션 1개 = 파일 디스크립터 + 작은 버퍼 (~수 KB)
+  → maxclients 기본 10,000
+  → epoll로 "준비된 것만" 처리
+  → 커넥션 수 자체가 부하가 아님!
+```
+
 ### 기타
 
 - **로컬 캐시 (L1+L2)**: Caffeine → Redis → DB 순서로 조회. Redis 부하 80% 감소
@@ -278,8 +328,39 @@ Streams: 저장 ✅, 재처리 ✅ (메모리 기반이라 대용량은 Kafka)
   Rate Limiting: GET + INCR + EXPIRE 원자적으로
   재고 차감: 확인 + 차감 원자적으로
   분산 락 해제: 내 락인지 확인 + 삭제 원자적으로
+  쿠폰 발급: 중복확인 + 수량확인 + 발급 원자적으로
 
 ⚠️ 스크립트가 오래 걸리면 전체 블로킹!
+```
+
+### Lua가 없으면 생기는 문제
+
+```
+App → Redis: SCARD (왕복 1번)
+App ← Redis: 9999
+... 이 사이에 다른 요청이 SADD! 💥
+App → Redis: SADD (왕복 2번)
+→ 초과 발급!
+
+Lua는 Redis 서버 내부에서 실행
+→ 네트워크 왕복 1번, 중간에 다른 명령 차단!
+```
+
+### 쿠폰 발급 Lua 예시
+
+```lua
+local key = KEYS[1]              -- coupon:123:users
+local userId = ARGV[1]
+local limit = tonumber(ARGV[2])  -- 10000
+
+if redis.call('SISMEMBER', key, userId) == 1 then
+    return -1  -- 중복
+end
+if redis.call('SCARD', key) >= limit then
+    return 0   -- 소진
+end
+redis.call('SADD', key, userId)
+return 1       -- 성공
 ```
 
 ---
